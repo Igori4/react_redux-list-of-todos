@@ -1,33 +1,32 @@
 import React from 'react';
-// import { createStore } from 'redux';
+import { connect } from 'react-redux';
+import ToDoList from './TodoList';
 
-// let store = createStore();
+const App = ({ count, increase, decrease }) => (
+  <div className="App">
+    <h1>
+      Count:
+      {count}
+    </h1>
+    <button type="button" onClick={increase}>+</button>
+    <button type="button" onClick={decrease}>-</button>
 
-class App extends React.Component {
-  state = {
-    count: 0,
-  }
+    <ToDoList />
+  </div>
+);
 
-  increes = () => {
-    this.setState(prevState => ({ count: prevState.count + 1 }));
-  }
+const mapState = (state) => {
+  return {
+    count: state.count,
+  };
+};
 
-  dencrees = () => {
-    this.setState(prevState => ({ count: prevState.count - 1 }));
-  }
+const mapDispatch = (dispatch) => {
+  return {
+    increase: () => dispatch({ type: 'increase', value: 1 }),
+    decrease: () => dispatch({ type: 'decrease', value: 1 }),
+  };
+};
 
-  render() {
-    return (
-      <div className="App">
-        <h1>
-          Count:
-          {this.state.count}
-        </h1>
-        <button type="button" onClick={this.increes}>+</button>
-        <button type="button" onClick={this.dencrees}>-</button>
-      </div>
-    );
-  }
-}
-
-export default App;
+const AppWithReact = connect(mapState, mapDispatch)(App);
+export default AppWithReact;
